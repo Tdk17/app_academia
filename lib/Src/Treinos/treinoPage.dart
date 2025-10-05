@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:ui' show ImageFilter; // ⭐ para possível blur futuro
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
