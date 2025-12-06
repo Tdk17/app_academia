@@ -1,33 +1,159 @@
 import 'dart:convert';
-
-import 'dart:ui' show ImageFilter; // ⭐ para possível blur futuro
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class TreinoDetalhePage extends StatefulWidget {
-  const TreinoDetalhePage({super.key});
+/// =======================================
+///  PÁGINAS ESPECÍFICAS (TREINO 1 A 5)
+/// =======================================
+
+class Treino1Page extends StatelessWidget {
+  const Treino1Page({super.key});
 
   @override
-  State<TreinoDetalhePage> createState() => _TreinoDetalhePageState();
+  Widget build(BuildContext context) {
+    return TreinoDetalheBase(
+      appBarTitle: 'Treino 1',
+      prefsKey: 'treino_1',
+      initialExercises: const [
+        Exercise(title: 'Prancha isométrica'),
+        Exercise(title: 'Cadeira abdutora'),
+        Exercise(title: 'Terra sumô'),
+        Exercise(title: 'Elevação pélvica'),
+        Exercise(title: 'Stiff RDL barra ou máquina'),
+        Exercise(title: 'Mesa flexora'),
+        Exercise(title: 'Cadeira flexora'),
+        Exercise(title: 'Panturrilha em pé'),
+      ],
+    );
+  }
 }
 
-class _TreinoDetalhePageState extends State<TreinoDetalhePage> {
-  final _exercises = <Exercise>[
-    Exercise(title: 'Supino Inclinado na Barra 4×8'),
-    Exercise(title: 'Supino reto halter 4×8'),
-    Exercise(title: 'Elevação Lateral 4×8'),
-  ];
+class Treino2Page extends StatelessWidget {
+  const Treino2Page({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TreinoDetalheBase(
+      appBarTitle: 'Treino 2',
+      prefsKey: 'treino_2',
+      initialExercises: const [
+        Exercise(title: 'Voador peitoral'),
+        Exercise(title: 'Supino inclinado máquina'),
+        Exercise(title: 'Supino inclinado com halter'),
+        Exercise(title: 'Supino reto barra ou máquina'),
+        Exercise(title: 'Desenvolvimento no Smith'),
+        Exercise(title: 'Elevação lateral polia com triângulo no pulso'),
+        Exercise(title: 'Tríceps francês no cross unilateral'),
+        Exercise(title: 'Abdominal infra solo'),
+      ],
+    );
+  }
+}
+
+class Treino3Page extends StatelessWidget {
+  const Treino3Page({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TreinoDetalheBase(
+      appBarTitle: 'Treino 3',
+      prefsKey: 'treino_3',
+      initialExercises: const [
+        Exercise(title: 'Puxada alta pegada fechada'),
+        Exercise(title: 'Puxada alta articulada unilateral'),
+        Exercise(title: 'Pulldown corda no cross'),
+        Exercise(title: 'Remada baixa triângulo'),
+        Exercise(title: 'Remada curvada barra'),
+        Exercise(title: 'Rosca Scott máquina ou barra W'),
+        Exercise(title: 'Abdominal supra banco declinado'),
+      ],
+    );
+  }
+}
+
+class Treino4Page extends StatelessWidget {
+  const Treino4Page({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TreinoDetalheBase(
+      appBarTitle: 'Treino 4',
+      prefsKey: 'treino_4',
+      initialExercises: const [
+        Exercise(title: 'Prancha isométrica'),
+        Exercise(title: 'Cadeira extensora'),
+        Exercise(title: 'Agachamento livre ou Smith'),
+        Exercise(title: 'Leg Press 45°'),
+        Exercise(title: 'Hack 180'),
+        Exercise(title: 'Búlgaro com halteres'),
+        Exercise(title: 'Cadeira adutora'),
+        Exercise(title: 'Panturrilha sentado'),
+      ],
+    );
+  }
+}
+
+class Treino5Page extends StatelessWidget {
+  const Treino5Page({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TreinoDetalheBase(
+      appBarTitle: 'Treino 5',
+      prefsKey: 'treino_5',
+      initialExercises: const [
+        Exercise(title: 'Crucifixo inclinado no cross'),
+        Exercise(title: 'Supino declinado máquina'),
+        Exercise(title: 'Elevação frontal com halteres'),
+        Exercise(title: 'Elevação lateral com halteres'),
+        Exercise(title: 'Remada cavalinho pegada aberta'),
+        Exercise(title: 'Lombar no banco romano (segurando anilha)'),
+        Exercise(title: 'Rosca concentrada sentado unilateral com halteres'),
+        Exercise(title: 'Tríceps barra no cross'),
+        Exercise(title: 'Abdominal corda no cross'),
+      ],
+    );
+  }
+}
+
+/// =======================================
+///  BASE GENÉRICA (MESMO PADRÃO QUE O TEU)
+/// =======================================
+
+class TreinoDetalheBase extends StatefulWidget {
+  final String appBarTitle;
+  final String prefsKey;
+  final List<Exercise> initialExercises;
+
+  const TreinoDetalheBase({
+    super.key,
+    required this.appBarTitle,
+    required this.prefsKey,
+    required this.initialExercises,
+  });
+
+  @override
+  State<TreinoDetalheBase> createState() => _TreinoDetalheBaseState();
+}
+
+class _TreinoDetalheBaseState extends State<TreinoDetalheBase> {
+  late List<Exercise> _exercises;
 
   @override
   void initState() {
     super.initState();
+    // cópia pra poder editar sem mexer na lista original
+    _exercises = widget.initialExercises
+        .map((e) => Exercise(title: e.title, weights: [...e.weights]))
+        .toList();
     _restore();
   }
 
   Future<void> _restore() async {
     final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString('treino_peito');
+    final raw = prefs.getString(widget.prefsKey);
     if (raw == null || raw.isEmpty) return;
 
     final list = jsonDecode(raw) as List<dynamic>;
@@ -41,7 +167,7 @@ class _TreinoDetalhePageState extends State<TreinoDetalhePage> {
   Future<void> _save() async {
     final prefs = await SharedPreferences.getInstance();
     final payload = jsonEncode(_exercises.map((e) => e.toJson()).toList());
-    await prefs.setString('treino_peito', payload);
+    await prefs.setString(widget.prefsKey, payload);
 
     final messenger = ScaffoldMessenger.maybeOf(context);
     messenger?.showSnackBar(const SnackBar(content: Text('Pesos salvos!')));
@@ -54,8 +180,7 @@ class _TreinoDetalhePageState extends State<TreinoDetalhePage> {
 
   @override
   Widget build(BuildContext context) {
-    // ⭐ Paleta alinhada às outras telas
-    final useBluePalette = false; // mude p/ true se quiser azul+preto
+    final useBluePalette = false; // igual à tua
     final Color base = useBluePalette
         ? const Color(0xFF0EA5E9)
         : const Color(0xFF22C55E);
@@ -72,12 +197,11 @@ class _TreinoDetalhePageState extends State<TreinoDetalhePage> {
     );
 
     return Container(
-      // ⭐ fundo igual às outras telas
       decoration: gradientBg,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: const Text('Treino Detalhe'),
+          title: Text(widget.appBarTitle),
           centerTitle: true,
           iconTheme: const IconThemeData(color: Colors.white),
           automaticallyImplyLeading: true,
@@ -87,9 +211,8 @@ class _TreinoDetalhePageState extends State<TreinoDetalhePage> {
           ),
           actionsIconTheme: const IconThemeData(color: Colors.white),
           elevation: 0,
-          backgroundColor: Colors.transparent, // ⭐
+          backgroundColor: Colors.transparent,
           flexibleSpace: Container(
-            // ⭐ gradiente na AppBar
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
@@ -103,16 +226,16 @@ class _TreinoDetalhePageState extends State<TreinoDetalhePage> {
             fontWeight: FontWeight.w800,
             fontSize: 18,
             letterSpacing: 0.2,
-          ), // ⭐
+          ),
         ),
         body: Material(
-          color: Colors.transparent, // ⭐ deixa ver o gradiente
+          color: Colors.transparent,
           child: Padding(
-            padding: const EdgeInsets.only(top: 24), // 40 -> 24 ⭐
+            padding: const EdgeInsets.only(top: 24),
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemBuilder: (ctx, i) => ExerciseCard(
-                accent: base, // ⭐ passa a cor p/ o card
+                accent: base,
                 exercise: _exercises[i],
                 onChanged: (weights) {
                   setState(() {
@@ -131,13 +254,16 @@ class _TreinoDetalhePageState extends State<TreinoDetalhePage> {
   }
 }
 
-/// Modelo simples
+/// =======================================
+///  MESMO MODELO + CARD QUE VOCÊ USOU
+/// =======================================
+
 class Exercise {
   final String title;
   final List<String> weights; // [aquecimento, s1, s2, s3]
 
-  Exercise({required this.title, List<String>? weights})
-    : weights = weights ?? List.filled(4, '');
+  const Exercise({required this.title, List<String>? weights})
+    : weights = weights ?? const ['', '', '', ''];
 
   Exercise copyWith({String? title, List<String>? weights}) =>
       Exercise(title: title ?? this.title, weights: weights ?? this.weights);
@@ -150,19 +276,18 @@ class Exercise {
   );
 }
 
-/// Cartão do exercício
 class ExerciseCard extends StatefulWidget {
   final Exercise exercise;
   final ValueChanged<List<String>> onChanged;
   final VoidCallback onLastFieldCompleted;
-  final Color accent; // ⭐
+  final Color accent;
 
   const ExerciseCard({
     super.key,
     required this.exercise,
     required this.onChanged,
     required this.onLastFieldCompleted,
-    required this.accent, // ⭐
+    required this.accent,
   });
 
   @override
@@ -205,22 +330,20 @@ class _ExerciseCardState extends State<ExerciseCard> {
   }
 
   InputDecoration _boxDecoration() => InputDecoration(
-    labelText: ' ', // mantém rótulo vazio
+    labelText: ' ',
     labelStyle: const TextStyle(color: Colors.white70, fontSize: 11),
     filled: true,
-    fillColor: Colors.white.withOpacity(0.06), // ⭐ dark input
+    fillColor: Colors.white.withOpacity(0.06),
     isDense: true,
     contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
     counterText: '',
     suffixText: 'kg',
-    suffixStyle: const TextStyle(color: Colors.white70), // ⭐
+    suffixStyle: const TextStyle(color: Colors.white70),
     enabledBorder: OutlineInputBorder(
-      // ⭐ borda sutil
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(color: Colors.white.withOpacity(0.12)),
     ),
     focusedBorder: OutlineInputBorder(
-      // ⭐ foco com a cor de destaque
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(color: widget.accent.withOpacity(0.6), width: 1.5),
     ),
@@ -228,10 +351,9 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   @override
   Widget build(BuildContext context) {
-    final green = widget.accent; // Colors.green[800]!;
+    final green = widget.accent;
     return Stack(
       children: [
-        // ⭐ fundo glass + borda + sombra leve
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -239,7 +361,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
               end: Alignment.bottomRight,
               colors: [green.withOpacity(0.28), green.withOpacity(0.18)],
             ),
-            borderRadius: BorderRadius.circular(16), // 14 -> 16
+            borderRadius: BorderRadius.circular(16),
             border: Border.all(color: Colors.white.withOpacity(0.12), width: 1),
             boxShadow: const [
               BoxShadow(
@@ -258,7 +380,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    // ⭐ evita quebra feia de título grande
                     child: Text(
                       widget.exercise.title,
                       maxLines: 2,
@@ -266,7 +387,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
-                        fontWeight: FontWeight.w700, // 600 -> 700
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
@@ -274,8 +395,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   IconButton(
                     icon: const Icon(Icons.save),
                     color: Colors.white,
-                    onPressed: () =>
-                        Navigator.of(context).pop(), // mantém lógica
+                    onPressed: () => Navigator.of(context).pop(),
                     tooltip: 'Salvar',
                   ),
                 ],
@@ -283,8 +403,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
               const SizedBox(height: 12),
 
               // chips estáticos
-              Row(
-                children: const [
+              const Row(
+                children: [
                   _Pill('Aquecimento'),
                   SizedBox(width: 8),
                   _Pill('Válida'),
@@ -303,7 +423,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     Expanded(
                       child: TextField(
                         controller: _controllers[i],
-                        style: const TextStyle(color: Colors.white), // ⭐
+                        style: const TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
@@ -326,8 +446,9 @@ class _ExerciseCardState extends State<ExerciseCard> {
                         onChanged: (_) => _propagate(),
                         onEditingComplete: () {
                           _propagate();
-                          if (i == 3)
-                            widget.onLastFieldCompleted(); // salva no último
+                          if (i == 3) {
+                            widget.onLastFieldCompleted();
+                          }
                           FocusScope.of(context).unfocus();
                         },
                         decoration: _boxDecoration(),
@@ -340,7 +461,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
             ],
           ),
         ),
-        // ⭐ brilho suave no canto (estético)
         Positioned(
           right: 12,
           top: 10,

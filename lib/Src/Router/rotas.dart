@@ -12,7 +12,12 @@ final appRouter = GoRouter(
       path: '/perfil',
       builder: (context, state) => const DashboardPage(),
     ),
-    GoRoute(path: '/detail', builder: (context, state) => TreinoDetalhePage()),
+
     GoRoute(path: '/back', builder: (context, state) => const DashboardPage()),
+    GoRoute(path: '/treino1', builder: (context, state) => const Treino1Page()),
+    GoRoute(path: '/treino2', builder: (context, state) => const Treino2Page()),
+    GoRoute(path: '/treino3', builder: (context, state) => const Treino3Page()),
+    GoRoute(path: '/treino4', builder: (context, state) => const Treino4Page()),
+    GoRoute(path: '/treino5', builder: (context, state) => const Treino5Page()),
   ],
 );
