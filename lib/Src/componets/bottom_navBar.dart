@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui' show ImageFilter; // para o blur do bottom bar
 import 'package:app_academia/Src/Home/home_screen.dart';
+import 'package:app_academia/Src/Menu/menu_pages.dart';
 import 'package:app_academia/Src/dashboard/perfil_board.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,13 +16,7 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 1;
 
-  final _pages = [
-    const Center(
-      child: Text('Menu', style: TextStyle(color: Colors.white)),
-    ),
-    const TreinoPage(),
-    const DashboardPage(),
-  ];
+  final _pages = [const MenuPages(), const TreinoPage(), const DashboardPage()];
 
   void _onTabSelected(int index) {
     setState(() => _currentIndex = index);

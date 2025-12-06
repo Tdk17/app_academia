@@ -52,19 +52,20 @@ class TreinoPage extends StatelessWidget {
                 sliver: SliverGrid(
                   delegate: SliverChildListDelegate.fixed([
                     _ExerciseCard(
+                      title: 'Pernas',
+                      subtitle: 'Glúteos',
+                      icon: Icons.directions_walk_rounded,
+                      accent: base,
+                      onTap: () => context.push('/treino1'),
+                    ),
+                    _ExerciseCard(
                       title: 'Peito',
                       subtitle: 'Tríceps',
                       icon: Icons.fitness_center_rounded,
                       accent: base,
                       onTap: () => context.push('/treino2'),
                     ),
-                    _ExerciseCard(
-                      title: 'Pernas',
-                      subtitle: 'Quadríceps',
-                      icon: Icons.directions_walk_rounded,
-                      accent: base,
-                      onTap: () => context.push('/treino1'),
-                    ),
+
                     _ExerciseCard(
                       title: 'Costas',
                       subtitle: 'Bíceps',
@@ -73,11 +74,18 @@ class TreinoPage extends StatelessWidget {
                       onTap: () => context.push('/treino3'),
                     ),
                     _ExerciseCard(
-                      title: 'Ombros',
-                      subtitle: 'Abdômen',
-                      icon: Icons.accessibility_new_rounded,
+                      title: 'Pernas',
+                      subtitle: 'Quadríceps',
+                      icon: Icons.directions_walk_rounded,
                       accent: base,
                       onTap: () => context.push('treino4'),
+                    ),
+                    _ExerciseCard(
+                      title: 'Ombros',
+                      subtitle: 'Deltoides',
+                      icon: Icons.accessibility_new_rounded,
+                      accent: base,
+                      onTap: () => context.push('treino5'),
                     ),
                   ]),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
