@@ -38864,10 +38864,10 @@ A.adx.prototype={
 $0(){return A.IB(this.a,"/treino3",t.X)},
 $S:0}
 A.ady.prototype={
-$0(){return A.IB(this.a,"treino4",t.X)},
+$0(){return A.IB(this.a,"/treino4",t.X)},
 $S:0}
 A.adz.prototype={
-$0(){return A.IB(this.a,"treino5",t.X)},
+$0(){return A.IB(this.a,"/treino5",t.X)},
 $S:0}
 A.l8.prototype={
 am(){return new A.Po()}}
