@@ -78,14 +78,14 @@ class TreinoPage extends StatelessWidget {
                       subtitle: 'Quadríceps',
                       icon: Icons.directions_walk_rounded,
                       accent: base,
-                      onTap: () => context.push('treino4'),
+                      onTap: () => context.push('/treino4'),
                     ),
                     _ExerciseCard(
                       title: 'Ombros',
                       subtitle: 'Deltoides',
                       icon: Icons.accessibility_new_rounded,
                       accent: base,
-                      onTap: () => context.push('treino5'),
+                      onTap: () => context.push('/treino5'),
                     ),
                   ]),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

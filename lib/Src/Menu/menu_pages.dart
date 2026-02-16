@@ -6,7 +6,7 @@ class MenuPages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final useBluePalette = false; // mesmo esquema do TreinoPage
+    final useBluePalette = false;
     final Color base = useBluePalette
         ? const Color(0xFF0EA5E9)
         : const Color(0xFF22C55E);
@@ -47,31 +47,53 @@ class MenuPages extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Sugestão alimentar adaptativa',
+                        'Finalização • 14 dias',
                         style: Theme.of(
                           context,
                         ).textTheme.bodyMedium?.copyWith(color: Colors.white70),
                       ),
                       const SizedBox(height: 16),
 
-                      // CARD VISÃO GERAL
+                      // CARD VISÃO GERAL (AJUSTADO AO DOCUMENTO)
                       _OverviewCard(accent: base),
 
                       const SizedBox(height: 20),
 
-                      _SectionTitle(text: 'Rotina & Cardio'),
+                      _SectionTitle(text: 'Regras do protocolo'),
                       const SizedBox(height: 10),
                       _DietCard(
                         accent: base,
-                        icon: Icons.water_drop_outlined,
-                        title: 'Hidratação & Rotina',
-                        subtitle: 'Base diária',
+                        icon: Icons.rule_rounded,
+                        title: 'Leia atentamente',
+                        subtitle: 'Sem desvios',
                         items: const [
-                          '4 a 4,5 litros de água durante o dia.',
-                          'Ao acordar: 300 a 500ml de água.',
-                          'Realizar 5 sessões de vácuo abdominal ao acordar.',
-                          'Café preto sem açúcar à vontade, mas com moderação.',
-                          'Gelatina zero/diet e calda zero quando bater vontade de doce.',
+                          'Começar a esfoliação da pele na segunda à noite com fubá e detergente neutro (com bucha vegetal e sem riscar).',
+                          'Não pode usar nenhum hidratante.',
+                          'Cortar: gelatina zero/diet, refrigerante zero, adoçante e molhos de qualquer tipo.',
+                          'Preparar as comidas sem sal e usar somente o sal do protocolo após pesar a refeição.',
+                          'Comprar sachê de sal e adicionar nas comidas conforme protocolo.',
+                          'Não utilizar nenhum tempero: sem óleo, sem temperos prontos.',
+                          'Não usar alho e nem cebola.',
+                          'Não fazer nada diferente do protocolo sem consultar o coach.',
+                          'Folhas verdes: alface, agrião, chicória, couve, espinafre e rúcula.',
+                          'Vegetais: cenoura OU pepino japonês.',
+                          'Café preto puro e canela em pó liberados (a água do café conta na hidratação).',
+                          'Seguir a ordem prescrita das refeições e o planejamento de treinos sem erros.',
+                        ],
+                      ),
+
+                      const SizedBox(height: 20),
+                      _SectionTitle(text: 'Rotina & Cardio'),
+                      const SizedBox(height: 10),
+
+                      _DietCard(
+                        accent: base,
+                        icon: Icons.wb_sunny_outlined,
+                        title: 'Ao acordar',
+                        subtitle: 'Começo do dia',
+                        items: const [
+                          'Tomar imediatamente 500ml de água.',
+                          'Realizar 10 sessões de vacuum abdominal.',
                         ],
                       ),
                       const SizedBox(height: 14),
@@ -79,10 +101,25 @@ class MenuPages extends StatelessWidget {
                         accent: base,
                         icon: Icons.directions_run_rounded,
                         title: 'Atividade cardiovascular',
-                        subtitle: 'Dias de treino e descanso',
+                        subtitle: 'Todos os dias',
                         items: const [
-                          '45 minutos de cardio nos dias de treino de musculação.',
-                          '60 minutos de cardio nos dias de descanso da musculação.',
+                          '120 min de cardio TODOS OS DIAS.',
+                          '1 hora ao acordar em jejum + 1 hora após o treino.',
+                        ],
+                      ),
+
+                      const SizedBox(height: 24),
+                      _SectionTitle(text: 'Hidratação & sódio'),
+                      const SizedBox(height: 10),
+                      _DietCard(
+                        accent: base,
+                        icon: Icons.water_drop_outlined,
+                        title: 'Protocolo (até sexta 20/02/2026)',
+                        subtitle: 'Controle diário',
+                        items: const [
+                          '5 litros de água/dia.',
+                          '7g de sal por dia dividido nas refeições de proteína.',
+                          '2g de vitamina C divididos durante o dia.',
                         ],
                       ),
 
@@ -90,86 +127,48 @@ class MenuPages extends StatelessWidget {
                       _SectionTitle(text: 'Refeições do dia'),
                       const SizedBox(height: 10),
 
-                      // REFEIÇÃO 1
+                      // Refeição 1
                       _DietCard(
                         accent: base,
                         icon: Icons.free_breakfast_rounded,
-                        title: 'Refeição 1 – Pré-treino',
-                        subtitle: 'Ao acordar / antes do treino',
+                        title: 'Refeição 1',
+                        subtitle: 'Café da manhã',
                         items: const [
                           '2 ovos inteiros.',
-                          '20g de requeijão light.',
-                          '2 fatias de pão (50g) OU 50g pão francês OU 50g aveia OU 50g goma de tapioca.',
-                          '1 porção de fruta: 50g banana/uva OU 100g maçã/kiwi/mamão/abacaxi OU 150g melão/melancia/morango.',
-                          '100ml de leite desnatado no café (somente nessa refeição).',
-                          'Adoçante e canela em pó a gosto, sem exageros.',
-                          'SUPLEMENTOS APÓS A REFEIÇÃO: Vitamina C 1g, 1 dose de ômega 3 (1g), 1 cps de NAC 600mg, 1 multivitamínico, 7g de creatina.',
+                          '2 claras.',
+                          '50g tomate + 50g couve OU espinafre OU rúcula.',
+                          '150g mamão.',
+                          'Após a refeição: Vitamina C 1g / Ômega 3 (1g) / NAC 600mg / 1 multivitamínico.',
                         ],
                       ),
 
                       const SizedBox(height: 14),
 
-                      // REFEIÇÃO 2
+                      // Refeição 2
                       _DietCard(
                         accent: base,
                         icon: Icons.lunch_dining_rounded,
-                        title: 'Refeição 2 – Pós-treino',
-                        subtitle: 'Recuperação',
+                        title: 'Refeição 2',
+                        subtitle: 'Proteína + vegetais',
                         items: const [
-                          '100g de arroz OU 100g aipim (mandioca) OU 100g macarrão OU 200g batata inglesa.',
-                          '100g peito de frango OU 100g carne vermelha magra OU 100g filé mignon suíno.',
-                          '100g de legumes/vegetais à escolha.',
+                          '100g peito de frango.',
+                          '100g legumes/vegetais.',
                           'Folhas verdes à vontade.',
-                          '70g mamão OU 70g abacaxi.',
                         ],
                       ),
 
                       const SizedBox(height: 14),
 
-                      // REFEIÇÃO 3
+                      // Refeição 3 (Pré-treino)
                       _DietCard(
                         accent: base,
-                        icon: Icons.restaurant_rounded,
-                        title: 'Refeição 3 – Almoço',
-                        subtitle: 'Base de dia',
+                        icon: Icons.fitness_center_rounded,
+                        title: 'Refeição 3 – Pré-treino',
+                        subtitle: 'Somente dia de treino',
                         items: const [
-                          '100g de arroz OU 100g aipim (mandioca) OU 100g macarrão OU 200g batata inglesa.',
-                          '120g peito de frango OU 120g carne vermelha magra OU 120g filé mignon suíno.',
-                          '100g de legumes/vegetais à escolha.',
-                          'Folhas verdes à vontade.',
-                          '70g mamão OU 70g abacaxi.',
-                        ],
-                      ),
-
-                      const SizedBox(height: 14),
-
-                      // REFEIÇÃO 4
-                      _DietCard(
-                        accent: base,
-                        icon: Icons.bakery_dining_rounded,
-                        title: 'Refeição 4 – Lanche da tarde',
-                        subtitle: 'Lanche estratégico',
-                        items: const [
-                          '70g peito de frango OU 20g whey.',
-                          '20g goma de tapioca OU 1 fatia de pão (25g) OU 1 Rap10 OU 25g pão francês OU 60g batata doce.',
-                          '1 porção de fruta: 50g banana/uva OU 100g maçã/kiwi/mamão/abacaxi OU 150g melão/melancia/morango.',
-                          'Tomate, alface, cebola a gosto.',
-                          'DIA DE DESCANSO DE TREINO: adicionar 30g de amêndoas ou castanhas.',
-                        ],
-                      ),
-
-                      const SizedBox(height: 14),
-
-                      // REFEIÇÃO 5
-                      _DietCard(
-                        accent: base,
-                        icon: Icons.dinner_dining_rounded,
-                        title: 'Refeição 5 – Jantar',
-                        subtitle: 'Fechando o dia',
-                        items: const [
-                          '100g arroz OU 100g aipim (mandioca) OU 100g macarrão OU 200g batata inglesa OU 50g pão francês.',
-                          '120g peito de frango OU 120g carne vermelha magra OU 120g filé mignon suíno.',
-                          '100g de legumes/vegetais à escolha.',
+                          '100g arroz (somente dias de treino; em dias sem treino NÃO comer).',
+                          '170g peito de frango.',
+                          '100g legumes/vegetais.',
                           'Folhas verdes à vontade.',
                           '100g mamão OU 100g abacaxi.',
                         ],
@@ -177,7 +176,55 @@ class MenuPages extends StatelessWidget {
 
                       const SizedBox(height: 14),
 
-                      // REFEIÇÃO 6
+                      // Intra-treino
+                      _DietCard(
+                        accent: base,
+                        icon: Icons.local_drink_rounded,
+                        title: 'Intra-treino',
+                        subtitle: 'Durante o treino',
+                        items: const [
+                          '2 litros de água gelada.',
+                          '10g creatina.',
+                          '2g sal (conta do total do dia).',
+                          '20g glicerina líquida.',
+                          'Clight 0/5 OU um “chorinho” de pré-treino para dar gosto.',
+                        ],
+                      ),
+
+                      const SizedBox(height: 14),
+
+                      // Refeição 4 (Pós-treino)
+                      _DietCard(
+                        accent: base,
+                        icon: Icons.restaurant_rounded,
+                        title: 'Refeição 4 – Pós-treino',
+                        subtitle: 'Recuperação',
+                        items: const [
+                          '150g peito de frango.',
+                          '40g goma de tapioca.',
+                          '100g legumes/vegetais.',
+                        ],
+                      ),
+
+                      const SizedBox(height: 14),
+
+                      // Refeição 5
+                      _DietCard(
+                        accent: base,
+                        icon: Icons.dinner_dining_rounded,
+                        title: 'Refeição 5',
+                        subtitle: 'Jantar',
+                        items: const [
+                          '150g peito de frango OU 200g filé de tilápia.',
+                          '100g legumes/vegetais.',
+                          'Folhas verdes à vontade.',
+                          '100g mamão OU 100g abacaxi.',
+                        ],
+                      ),
+
+                      const SizedBox(height: 14),
+
+                      // Refeição 6 (Ceia)
                       _DietCard(
                         accent: base,
                         icon: Icons.nightlight_round_rounded,
@@ -186,47 +233,23 @@ class MenuPages extends StatelessWidget {
                         items: const [
                           '160g iogurte natural desnatado.',
                           '20g whey.',
-                          '1 porção de fruta: 50g banana/uva OU 100g maçã/kiwi/mamão/abacaxi OU 150g melão/melancia/morango.',
-                          '20g amêndoas ou castanhas.',
-                          'SUPLEMENTOS: Vitamina C 1g, 1 dose de ômega 3 (1g), 1 cps de NAC 600mg.',
+                          '100g maçã.',
+                          'Vitamina C 1g / Ômega 3 (1g) / NAC 600mg.',
                         ],
                       ),
 
                       const SizedBox(height: 24),
-                      _SectionTitle(text: 'Refeed & refeição livre'),
+                      _SectionTitle(text: 'Protocolos médicos (bloqueado)'),
                       const SizedBox(height: 10),
-
                       _DietCard(
                         accent: base,
-                        icon: Icons.celebration_rounded,
-                        title: 'Refeed / Refeição livre',
-                        subtitle: 'A cada ciclo bem feito',
+                        icon: Icons.health_and_safety_rounded,
+                        title: 'Apenas com liberação profissional',
+                        subtitle: 'Conteúdo sensível',
                         items: const [
-                          'Refeed somente após sequência de dias com dieta 100% (sem erros).',
-                          '1 refeição “livre” no sábado OU domingo, substituindo o jantar.',
-                          'Manter boa fonte de proteína e controlar doces.',
-                          'Exemplos: 1 hambúrguer artesanal com fritas + 1 doce pequeno, OU 4 fatias de pizza, OU churrasco com moderação.',
-                        ],
-                      ),
-
-                      const SizedBox(height: 24),
-                      _SectionTitle(text: 'Regras e observações'),
-                      const SizedBox(height: 10),
-
-                      _DietCard(
-                        accent: base,
-                        icon: Icons.rule_rounded,
-                        title: 'Observações importantes',
-                        subtitle: 'Disciplina total',
-                        items: const [
-                          'Não fazer nada de diferente sem consultar o coach antes.',
-                          'Não usar gordura no preparo dos alimentos (usar métodos mais limpos).',
-                          'Todas as quantidades se referem ao alimento pronto, já cozido/assado.',
-                          'Bebida alcoólica, mesmo pouca, atrasa os resultados.',
-                          'Bebidas zero kcal só eventualmente; priorizar água (mínimo 4L).',
-                          'Nenhum detalhe deve ser negligenciado: siga a dieta na ordem.',
-                          'Planejamento é fundamental: montar as refeições do dia com antecedência.',
-                          'A eficácia depende exclusivamente do seu comprometimento e dedicação.',
+                          'O documento contém protocolos farmacológicos/termogênicos com doses.',
+                          'Por segurança, esta tela não exibe essas instruções.',
+                          'Se você quiser, eu deixo pronto um “toggle” (admin) pra mostrar só com senha e confirmação médica.',
                         ],
                       ),
 
@@ -274,7 +297,6 @@ class _OverviewCard extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // brilho de fundo
           Positioned(
             right: -30,
             top: -30,
@@ -285,7 +307,11 @@ class _OverviewCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.person_rounded, color: Colors.white, size: 26),
+                  const Icon(
+                    Icons.person_rounded,
+                    color: Colors.white,
+                    size: 26,
+                  ),
                   const SizedBox(width: 8),
                   Text(
                     'Pedro Henrique',
@@ -299,7 +325,7 @@ class _OverviewCard extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.calendar_month_rounded,
                     size: 18,
                     color: Colors.white70,
@@ -316,10 +342,14 @@ class _OverviewCard extends StatelessWidget {
               const SizedBox(height: 4),
               Row(
                 children: [
-                  Icon(Icons.update_rounded, size: 18, color: Colors.white70),
+                  const Icon(
+                    Icons.update_rounded,
+                    size: 18,
+                    color: Colors.white70,
+                  ),
                   const SizedBox(width: 6),
                   Text(
-                    'Próxima atualização: 13/12/2025 (depois, todo sábado)',
+                    'Próxima atualização: 20/02/2026',
                     style: Theme.of(
                       context,
                     ).textTheme.bodySmall?.copyWith(color: Colors.white70),
@@ -340,21 +370,23 @@ class _OverviewCard extends StatelessWidget {
                     width: 1,
                   ),
                 ),
-                child: Row(
+                child: const Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Icon(
                       Icons.info_outline_rounded,
                       size: 16,
                       color: Colors.white70,
                     ),
                     SizedBox(width: 6),
-                    Text(
-                      'Sem horário fixo: cumprir todas as refeições no dia.',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+                    Flexible(
+                      child: Text(
+                        'Sem horário fixo: cumprir todas as refeições no dia.',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
