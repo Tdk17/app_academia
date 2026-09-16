@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:ui' show ImageFilter; // para o blur do bottom bar
-import 'package:app_academia/Src/Home/home_screen.dart';
-import 'package:app_academia/Src/dashboard/perfil_board.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../Alimentacao/alimentacao_page.dart';
+import '../Home/home_screen.dart';
+import '../dashboard/perfil_board.dart';
+import 'app_theme.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -13,221 +13,47 @@ class MainNavigation extends StatefulWidget {
 }
 
 class _MainNavigationState extends State<MainNavigation> {
-  int _currentIndex = 1;
-
-  final _pages = [
-    const Center(
-      child: Text('Menu', style: TextStyle(color: Colors.white)),
-    ),
-    const TreinoPage(),
-    const DashboardPage(),
-  ];
-
-  void _onTabSelected(int index) {
-    setState(() => _currentIndex = index);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // paleta combinando com as outras telas
-    final useBluePalette = false; // true = azul+preto | false = verde+preto
-    final Color base = useBluePalette
-        ? const Color(0xFF0EA5E9)
-        : const Color(0xFF22C55E);
-    final Color baseDark = useBluePalette
-        ? const Color(0xFF075985)
-        : const Color(0xFF14532D);
-
-    final bgGradient = BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Colors.black, baseDark.withOpacity(0.75), Colors.black],
-      ),
-    );
-
-    return Container(
-      decoration: bgGradient,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        extendBody: true, // deixa o bottom bar “flutuando” no fundo
-        appBar: FixedAppBar(accent: base),
-        body: IndexedStack(index: _currentIndex, children: _pages),
-
-        // Botão flutuante central (com “aura”)
-        floatingActionButton: Container(
-          width: 72,
-          height: 72,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: base.withOpacity(0.45),
-                blurRadius: 24,
-                spreadRadius: 2,
-              ),
-            ],
-          ),
-          child: FloatingActionButton(
-            elevation: 6,
-            backgroundColor: base,
-            shape: const CircleBorder(),
-            onPressed: () => _onTabSelected(1),
-            child: const FaIcon(
-              FontAwesomeIcons.dumbbell,
-              size: 28,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-        // BottomAppBar com glass + blur + indicador de aba ativa
-        bottomNavigationBar: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-            child: BottomAppBar(
-              shape: const CircularNotchedRectangle(),
-              notchMargin: 8,
-              color: Colors.white.withOpacity(0.06),
-              elevation: 0,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(
-                      color: Colors.white.withOpacity(0.12),
-                      width: 1,
-                    ),
-                  ),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                height: 64,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _NavIcon(
-                      icon: FontAwesomeIcons.list,
-                      label: 'Menu',
-                      isActive: _currentIndex == 0,
-                      onTap: () => _onTabSelected(0),
-                      accent: base,
-                    ),
-                    const SizedBox(width: 48), // espaço do notch do FAB
-                    _NavIcon(
-                      icon: FontAwesomeIcons.user,
-                      label: 'Perfil',
-                      isActive: _currentIndex == 2,
-                      onTap: () => _onTabSelected(2),
-                      accent: base,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Ícone do bottom bar com indicador sutil e label
-class _NavIcon extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isActive;
-  final VoidCallback onTap;
-  final Color accent;
-
-  const _NavIcon({
-    required this.icon,
-    required this.label,
-    required this.isActive,
-    required this.onTap,
-    required this.accent,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final Color fg = isActive ? accent : Colors.white70;
-
-    return InkResponse(
-      onTap: onTap,
-      radius: 28,
-      child: SizedBox(
-        height: 52, // <= cabe no constraint de ~55px
-        width: 72, // largura confortável p/ label
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FaIcon(icon, size: 20, color: fg), // 22 -> 20
-            const SizedBox(height: 2), // 4 -> 2
-            Text(
-              label,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 11, // 12 -> 11
-                height: 1.0, // reduz altura de linha
-                color: isActive ? Colors.white : Colors.white70,
-                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-              ),
-            ),
-            const SizedBox(height: 2), // 4 -> 2
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 180),
-              curve: Curves.easeOut,
-              height: 2, // 3 -> 2
-              width: isActive ? 20 : 0, // 22 -> 20
-              decoration: BoxDecoration(
-                color: accent,
-                borderRadius: BorderRadius.circular(999),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// AppBar customizada e fixa (mesma lógica, só estética)
-class FixedAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final Color accent;
-  const FixedAppBar({super.key, required this.accent});
-
-  @override
-  State<FixedAppBar> createState() => _FixedAppBarState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-}
-
-class _FixedAppBarState extends State<FixedAppBar> {
+  int _currentIndex = 0;
   Timer? _timer;
   int _seconds = 0;
   bool _isRunning = false;
 
+  final _pages = const [
+    WorkoutsPage(),
+    AlimentacaoPage(),
+    ProgressPage(),
+  ];
+
+  static const _titles = ['Treinos', 'Alimentação', 'Progresso'];
+
   void _toggleTimer() {
     if (_isRunning) {
       _timer?.cancel();
-    } else {
-      _timer = Timer.periodic(const Duration(seconds: 1), (_) {
-        setState(() {
-          _seconds++;
-        });
-      });
+      setState(() => _isRunning = false);
+      return;
     }
-    setState(() => _isRunning = !_isRunning);
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) setState(() => _seconds++);
+    });
+    setState(() => _isRunning = true);
+  }
+
+  void _resetTimer() {
+    _timer?.cancel();
+    setState(() {
+      _isRunning = false;
+      _seconds = 0;
+    });
   }
 
   String _formatTime(int seconds) {
-    final m = (seconds ~/ 60).toString().padLeft(2, '0');
-    final s = (seconds % 60).toString().padLeft(2, '0');
-    return "$m:$s";
+    final hours = seconds ~/ 3600;
+    final minutes = (seconds % 3600) ~/ 60;
+    final secs = seconds % 60;
+    if (hours > 0) {
+      return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+    }
+    return '${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
   }
 
   @override
@@ -238,80 +64,149 @@ class _FixedAppBarState extends State<FixedAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final accent = widget.accent;
-
-    return AppBar(
-      elevation: 0,
-      centerTitle: true,
-      titleSpacing: 0,
-      backgroundColor: Colors.transparent,
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.black, accent.withOpacity(0.28)],
-          ),
-        ),
-      ),
-      title: const Text(
-        'Bem - Vindo',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 0.2,
-        ),
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 12),
-          child: Row(
-            children: [
-              // botão play/pause com pill
-              InkWell(
-                borderRadius: BorderRadius.circular(999),
-                onTap: _toggleTimer,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final desktop = constraints.maxWidth >= 900;
+        return Scaffold(
+          backgroundColor: AppTheme.bg,
+          appBar: AppBar(
+            toolbarHeight: desktop ? 68 : 60,
+            titleSpacing: desktop ? 24 : 16,
+            backgroundColor: const Color(0xF2080A0D),
+            surfaceTintColor: Colors.transparent,
+            title: Row(
+              children: [
+                Container(
+                  width: 34,
+                  height: 34,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: accent.withOpacity(0.20),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: accent.withOpacity(0.35)),
+                    color: AppTheme.accent,
+                    borderRadius: BorderRadius.circular(11),
                   ),
-                  child: Icon(
-                    _isRunning ? Icons.pause_rounded : Icons.play_arrow_rounded,
-                    size: 22,
-                    color: Colors.white,
-                  ),
+                  child: const Icon(Icons.fitness_center_rounded, color: Colors.black, size: 19),
                 ),
+                const SizedBox(width: 11),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('PH TRAINING', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: .8)),
+                    Text(_titles[_currentIndex], style: const TextStyle(fontSize: 11, color: AppTheme.muted, fontWeight: FontWeight.w600)),
+                  ],
+                ),
+              ],
+            ),
+            actions: [
+              _TimerChip(
+                time: _formatTime(_seconds),
+                running: _isRunning,
+                onToggle: _toggleTimer,
+                onReset: _resetTimer,
+                compact: !desktop,
               ),
-              const SizedBox(width: 8),
-              // cronômetro em chip monoespaçado
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.08),
-                  borderRadius: BorderRadius.circular(999),
-                  border: Border.all(color: Colors.white.withOpacity(0.18)),
-                ),
-                child: Text(
-                  _formatTime(_seconds),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontFeatures: [
-                      FontFeature.tabularFigures(),
-                    ], // dígitos alinhados
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+              SizedBox(width: desktop ? 22 : 10),
             ],
           ),
+          body: desktop
+              ? Row(
+                  children: [
+                    NavigationRail(
+                      selectedIndex: _currentIndex,
+                      onDestinationSelected: (index) => setState(() => _currentIndex = index),
+                      backgroundColor: const Color(0xFF0B0E11),
+                      indicatorColor: AppTheme.accent,
+                      selectedIconTheme: const IconThemeData(color: Colors.black),
+                      unselectedIconTheme: const IconThemeData(color: AppTheme.muted),
+                      selectedLabelTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
+                      unselectedLabelTextStyle: const TextStyle(color: AppTheme.muted, fontWeight: FontWeight.w600),
+                      groupAlignment: -0.68,
+                      labelType: NavigationRailLabelType.all,
+                      destinations: const [
+                        NavigationRailDestination(icon: Icon(Icons.fitness_center_rounded), label: Text('Treinos')),
+                        NavigationRailDestination(icon: Icon(Icons.restaurant_menu_rounded), label: Text('Alimentação')),
+                        NavigationRailDestination(icon: Icon(Icons.insights_rounded), label: Text('Progresso')),
+                      ],
+                    ),
+                    const VerticalDivider(width: 1, thickness: 1, color: AppTheme.border),
+                    Expanded(child: IndexedStack(index: _currentIndex, children: _pages)),
+                  ],
+                )
+              : IndexedStack(index: _currentIndex, children: _pages),
+          bottomNavigationBar: desktop
+              ? null
+              : NavigationBar(
+                  height: 72,
+                  selectedIndex: _currentIndex,
+                  onDestinationSelected: (index) => setState(() => _currentIndex = index),
+                  backgroundColor: const Color(0xF211151A),
+                  indicatorColor: AppTheme.accent,
+                  destinations: const [
+                    NavigationDestination(
+                      icon: Icon(Icons.fitness_center_outlined),
+                      selectedIcon: Icon(Icons.fitness_center_rounded, color: Colors.black),
+                      label: 'Treinos',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.restaurant_menu_outlined),
+                      selectedIcon: Icon(Icons.restaurant_menu_rounded, color: Colors.black),
+                      label: 'Alimentação',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.insights_outlined),
+                      selectedIcon: Icon(Icons.insights_rounded, color: Colors.black),
+                      label: 'Progresso',
+                    ),
+                  ],
+                ),
+        );
+      },
+    );
+  }
+}
+
+class _TimerChip extends StatelessWidget {
+  final String time;
+  final bool running;
+  final VoidCallback onToggle;
+  final VoidCallback onReset;
+  final bool compact;
+
+  const _TimerChip({
+    required this.time,
+    required this.running,
+    required this.onToggle,
+    required this.onReset,
+    required this.compact,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InkWell(
+          onTap: onToggle,
+          borderRadius: BorderRadius.circular(999),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: compact ? 10 : 13, vertical: 9),
+            decoration: BoxDecoration(
+              color: running ? AppTheme.accent.withValues(alpha: .15) : AppTheme.surfaceAlt,
+              borderRadius: BorderRadius.circular(999),
+              border: Border.all(color: running ? AppTheme.accent.withValues(alpha: .35) : AppTheme.border),
+            ),
+            child: Row(
+              children: [
+                Icon(running ? Icons.pause_rounded : Icons.play_arrow_rounded, size: 18, color: running ? AppTheme.accent : Colors.white),
+                const SizedBox(width: 6),
+                Text(time, style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 12, fontFeatures: [FontFeature.tabularFigures()])),
+              ],
+            ),
+          ),
         ),
+        if (!compact) ...[
+          const SizedBox(width: 6),
+          IconButton(onPressed: onReset, tooltip: 'Zerar cronômetro', icon: const Icon(Icons.restart_alt_rounded, color: AppTheme.muted)),
+        ],
       ],
     );
   }
