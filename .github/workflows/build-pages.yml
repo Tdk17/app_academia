@@ -1,0 +1,48 @@
+name: Build Flutter Web
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - 'docs/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: app-academia-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build web
+        run: |
+          rm -rf docs
+          flutter build web --release --base-href /app_academia/ --output docs
+          touch docs/.nojekyll
+
+      - name: Commit production build
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs pubspec.lock
+          if git diff --cached --quiet; then
+            echo "No build changes to commit"
+          else
+            git commit -m "build: publish refreshed PH Training web"
+            git push
+          fi
