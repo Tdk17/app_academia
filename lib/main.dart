@@ -1,6 +1,6 @@
-import 'package:app_academia/Src/Router/rotas.dart';
-import 'package:app_academia/Src/componets/bottom_navBar.dart';
 import 'package:flutter/material.dart';
+import 'Src/componets/app_theme.dart';
+import 'Src/componets/bottom_navBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,16 +9,13 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      routerConfig: appRouter,
+    return MaterialApp(
+      title: 'PH Training',
       debugShowCheckedModeBanner: false,
+      theme: AppTheme.dark,
+      home: const MainNavigation(),
     );
   }
 }
